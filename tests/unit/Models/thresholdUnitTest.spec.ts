@@ -1,6 +1,6 @@
 import { test } from '@japa/runner'
 import Threshold from 'App/Models/Threshold'
-test('test threshold model true', async ({ assert }) => {
+test('test if the threshold model true', async ({ assert }) => {
 
   const threshold : Threshold = new Threshold()
   threshold.fill({
@@ -11,11 +11,11 @@ test('test threshold model true', async ({ assert }) => {
   })
   assert.equal(15.5,threshold.humidity)
   assert.equal(25,threshold.temperature)
-  assert.equal(1,threshold.temperature)
+  assert.equal(1,threshold.sensorId)
 
 })
 
-test('test game entity is false', async ({ assert }) => {
+test('test if the threshold model is false', async ({ assert }) => {
 
   const threshold : Threshold  = new Threshold()
   threshold.fill({
@@ -29,7 +29,7 @@ test('test game entity is false', async ({ assert }) => {
  
 })
 
-test("test user entity is empty",async({assert})=>{
+test("test threshold model is empty",async({assert})=>{
   const threshold : Threshold  = new Threshold()
   threshold.fill({
     humidity : undefined,
