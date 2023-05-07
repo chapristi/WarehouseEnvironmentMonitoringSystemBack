@@ -42,10 +42,10 @@ export default class SensorsController {
         const payload = await request.validate(CreateSensorValidator);
         try{
             // Insert the new sensor into the "sensors" table in the database.
-            const sensor = await Database.table("sensors").returning('*').insert(payload);
+            const sensor = await Database.table("sensors").insert(payload);
 
             // Return a JSON response with the newly created sensor and a 201 status code.
-            return response.status(201).json(sensor)
+            return response.created(sensor)
         }catch(e: any){
 
             // If there was an error inserting the sensor into the database, return a 500 error response with a message.
