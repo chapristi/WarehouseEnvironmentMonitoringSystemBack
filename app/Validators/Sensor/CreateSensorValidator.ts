@@ -1,4 +1,4 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages,rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class CreateSensorValidator {
@@ -24,10 +24,12 @@ export default class CreateSensorValidator {
    *    ```
    */
   public schema = schema.create({
-    macAddress : schema.string(),
+    macAddress : schema.string({},[
+      rules.unique({ table: 'sensors', column: 'macAddress',}),
+    ]),
     name: schema.string(),
-    latitude: schema.number.nullable(),
-    longitude: schema.number.nullable(),
+    latitude: schema.number.optional(),
+    longitude: schema.number.optional(),
     
   })
 

@@ -74,6 +74,11 @@ export default class SensorsDatasController {
          
  
      }
+     /**
+     * Get last datasSensor 
+     * @param {HttpContextContract} ctx - The HTTP context containing the request and response objects.
+     * @returns {Promise<any>} A promise that resolves to the newly created sensor.
+     */
      public async show({params,response}: HttpContextContract):Promise<void>{
 
         try{
