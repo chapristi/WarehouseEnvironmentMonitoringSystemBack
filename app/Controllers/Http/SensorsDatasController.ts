@@ -13,7 +13,7 @@ export default class SensorsDatasController {
     * @param {HttpContextContract} ctx - The HTTP context containing the request and response objects.
     * @returns {Promise<any>} A promise that resolves to the list of sensors and a 200 status code, or an error response with a 500 status code.
     */
-    public async index ({request,response}: HttpContextContract):Promise<any> {
+    public async index ({request,response,params}: HttpContextContract):Promise<any> {
         // Get the current page number from the request query params, defaulting to page 1 if not provided.
         const page = request.input('page', 1)
 
@@ -23,7 +23,7 @@ export default class SensorsDatasController {
 
         try{
             const sensorDatas = await Database
-                .rawQuery("SELECT DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00') AS hour, AVG(temperature) AS temperature, AVG(humidity) AS humidity FROM sensors_datas GROUP BY hour LIMIT ? OFFSET ? ;",[limit, (page - 1)*limit])    
+                .rawQuery("SELECT DATE_FORMAT(created_at, '%Y-%m-%d %H:00:00') AS hour, AVG(temperature) AS temperature, AVG(humidity) AS humidity FROM sensors_datas WHERE sensor_id = ? GROUP BY hour LIMIT ? OFFSET ? ;",[params.sensorId,limit, (page - 1)*limit])    
             
             // Return a 200 JSON response containing the list of sensors.
             

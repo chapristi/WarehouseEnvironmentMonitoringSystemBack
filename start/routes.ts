@@ -30,7 +30,7 @@ Route.group(()=>{
   })
   Route.group(()=>{
     Route.post("/sensorDatas","SensorsDatasController.store")
-    Route.get("/sensorDatas","SensorsDatasController.index")
+    Route.get("/sensorDatasOfDay/:sensorId","SensorsDatasController.index")
     Route.get("/sensorDatas/:sensorId","SensorsDatasController.show")
 
   })
