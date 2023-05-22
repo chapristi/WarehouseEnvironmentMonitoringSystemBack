@@ -26,8 +26,7 @@ export async function handleThresholdExceeded(sensorData:SensorData,sensor:Senso
     if (check){
         console.error("message envoyé")
         //on envoie un sms car au propietaire 
-        Event.emit('new:notifyUser', { body : `⛔ (seuil depassé detecté par {${sensor.name}} risque à prevoir) Bonjour Monsieur/Madame nous vous informons que le seuil que vous avez renseigné viens d'être dépassé!👀 humidité actuelle : {${sensorData.humidity}}💦 ; temperature actuelle : {${sensorData.temperature}}🌞`,clientPhoneNUmber:"+33772505898" })
-
+        Event.emit('new:notifyUser', { body : `\n⛔ (seuil depassé detecté par ${sensor.name} risque à prevoir)\nBonjour Monsieur/Madame nous vous informons que le seuil que vous avez renseigné viens d'être dépassé 👀\nhumidité actuelle: ${sensorData.humidity}% 💧\ntemperature actuelle: ${sensorData.temperature}°C 🌞`,clientPhoneNUmber:"+33772505898" })
     }
     
 }

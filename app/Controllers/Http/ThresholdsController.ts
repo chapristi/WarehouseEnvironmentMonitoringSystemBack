@@ -16,7 +16,7 @@ export default class ThresholdsController {
 
         try{
             // Insert the new sensor into the "thresholds" table in the database.
-            const sensor = await Database.table("thresholds").insert({"sensor_id":sensorId,"humidity":humidity,"temperature" :temperature}).returning("*");
+            const sensor = await Database.table("thresholds").insert({"sensor_id":sensorId,"humidity":humidity,"temperature" :temperature});
 
             // Return a JSON response with the newly created sensor and a 201 status code.
             return response.status(201).json(sensor)
@@ -38,7 +38,7 @@ export default class ThresholdsController {
     public async show({params,response}: HttpContextContract):Promise<void>{
         try{
             // Attempt to retrieve the requested Threshold from the database using its ID.
-            const threshold  = await Threshold.findOrFail(params.id);
+            const threshold  = await Threshold.findByOrFail("sensorId", params.sensoId);
             
             // If the Threshold is found, return a 200 status code and the Thresholdas a JSON response.
             return response.ok(threshold);
@@ -48,14 +48,14 @@ export default class ThresholdsController {
             // If the Threshold cannot be found, return a 500 error response with an error message
             response
                 .status(500)
-                .json({message: "not find"})
+                .json({message: "the threshold you want does not exist"})
         }
     }
     public async update({request,params,response}: HttpContextContract): Promise<any>
     {
         try{
             const payload = await request.validate(UpdateThresholdValidator)
-            const threshold: Threshold = await Threshold.findOrFail(params.id)
+            const threshold: Threshold = await Threshold.findByOrFail("sensorId",params.sensorId)
             await threshold
               .merge(payload)
               .save()
@@ -69,7 +69,7 @@ export default class ThresholdsController {
             .status(500)
             .json({
                   message: "impossible to update the game,try later"
-                })
+            })
         }
     }
 }

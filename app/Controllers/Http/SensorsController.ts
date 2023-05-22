@@ -14,12 +14,15 @@ export default class SensorsController {
     public async index ({request,response}: HttpContextContract):Promise<any> {
         // Get the current page number from the request query params, defaulting to page 1 if not provided.
         const page = request.input('page', 1)
+        const querySearch  = request.input("q","")
 
         // Set the maximum number of sensors to return per page.
         const limit = 10
         try{
             // Retrieve a paginated list of sensors from the database using the page and limit values.
-            const posts = await Database.from('sensors').paginate(page, limit)
+            const posts = await Database.from('sensors')
+                .where('name', 'like', `%${querySearch}%`)
+                .paginate(page, limit)
             // Return a 200 JSON response containing the list of sensors.
             return response.ok(posts)
         }catch(e){
@@ -42,10 +45,10 @@ export default class SensorsController {
         const payload = await request.validate(CreateSensorValidator);
         try{
             // Insert the new sensor into the "sensors" table in the database.
-            const sensor = await Database.table("sensors").returning('*').insert(payload);
+            const sensor = await Database.table("sensors").insert(payload);
 
             // Return a JSON response with the newly created sensor and a 201 status code.
-            return response.status(201).json(sensor)
+            return response.created(sensor)
         }catch(e: any){
 
             // If there was an error inserting the sensor into the database, return a 500 error response with a message.

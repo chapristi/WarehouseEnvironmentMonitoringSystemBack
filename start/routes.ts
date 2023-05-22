@@ -30,12 +30,14 @@ Route.group(()=>{
   })
   Route.group(()=>{
     Route.post("/sensorDatas","SensorsDatasController.store")
-    Route.get("/sensorDatas","SensorsDatasController.index")
+    Route.get("/sensorDatasOfDay/:sensorId","SensorsDatasController.index")
+    Route.get("/sensorDatas/:sensorId","SensorsDatasController.show")
+
   })
   Route.group(()=>{
     Route.post("/threshold","ThresholdsController.store")
-    Route.get("/threshold/:id","ThresholdsController.show")
-    Route.patch("/threshold/:id","ThresholdsController.update")
+    Route.get("/threshold/:sensoId","ThresholdsController.show")
+    Route.patch("/threshold/:sensorId","ThresholdsController.update")
 
   })
 
